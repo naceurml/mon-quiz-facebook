@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mon Premier Test Marketing</title>
+</head>
+<body>
+    <h1>Découvrez votre offre personnalisée</h1>
+    
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/fr_FR/sdk.js"></script>
+    
+    <div class="fb-login-button" data-scope="public_profile,user_location" onlogin="checkLoginState();"></div>
+
+    <div id="display-area" style="margin-top:20px; font-size: 20px; color: blue;">
+        Veuillez vous connecter pour voir votre offre.
+    </div>
+
+    <script>
+      function checkLoginState() {
+        FB.getLoginStatus(function(response) {
+          if (response.status === 'connected') {
+            // Requête vers l'API Graph pour le nom et la ville
+            FB.api('/me?fields=first_name,location', function(userResponse) {
+              const name = userResponse.first_name;
+              const city = userResponse.location ? userResponse.location.name : "votre ville";
+              
+              document.getElementById('display-area').innerHTML = 
+                "Bonjour " + name + " ! Profitez de -20% dans notre boutique à " + city + " !";
+            });
+          }
+        });
+      }
+
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : 'VOTRE_ID_APP',
+          cookie     : true,
+          xfbml      : true,
+          version    : 'v18.0'
+        });
+      };
+    </script>
+</body>
+</html>
