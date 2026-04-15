@@ -1,31 +1,45 @@
-<!DOCTYPE html>
-<html>
+
+  <!DOCTYPE html>
+<html lang="fr">
 <head>
-    <title>Mon Premier Test Marketing</title>
+    <meta charset="UTF-8">
+    <title>Hello World Marketing</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; padding-top: 50px; }
+        #welcome-msg { margin-top: 30px; font-size: 24px; font-weight: bold; color: #1877F2; }
+    </style>
 </head>
 <body>
-    <h1>Découvrez votre offre personnalisée</h1>
-    
+
+    <h1>Offre Exclusive</h1>
+    <p>Connectez-vous pour découvrir votre cadeau personnalisé.</p>
+
     <div id="fb-root"></div>
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/fr_FR/sdk.js"></script>
     
-    <div class="fb-login-button" data-scope="public_profile,user_location" onlogin="checkLoginState();"></div>
+    <div class="fb-login-button" 
+         data-width="" 
+         data-size="large" 
+         data-button-type="continue_with" 
+         data-layout="default" 
+         data-auto-logout-link="false" 
+         data-use-continue-as="true" 
+         data-scope="public_profile,user_location"
+         onlogin="checkLoginState();"></div>
 
-    <div id="display-area" style="margin-top:20px; font-size: 20px; color: blue;">
-        Veuillez vous connecter pour voir votre offre.
-    </div>
+    <div id="welcome-msg"></div>
 
     <script>
       function checkLoginState() {
         FB.getLoginStatus(function(response) {
           if (response.status === 'connected') {
-            // Requête vers l'API Graph pour le nom et la ville
-            FB.api('/me?fields=first_name,location', function(userResponse) {
-              const name = userResponse.first_name;
-              const city = userResponse.location ? userResponse.location.name : "votre ville";
+            // Requête vers l'API Graph
+            FB.api('/me?fields=first_name,location', function(user) {
+              const prenom = user.first_name;
+              const ville = user.location ? user.location.name : "votre région";
               
-              document.getElementById('display-area').innerHTML = 
-                "Bonjour " + name + " ! Profitez de -20% dans notre boutique à " + city + " !";
+              document.getElementById('welcome-msg').innerHTML = 
+                "Félicitations " + prenom + " !<br>Une surprise vous attend dans notre magasin de " + ville + " !";
             });
           }
         });
@@ -33,10 +47,10 @@
 
       window.fbAsyncInit = function() {
         FB.init({
-          appId      : 'VOTRE_ID_APP',
+          appId      : '2084441428788121', // Les étudiants collent leur ID ici
           cookie     : true,
           xfbml      : true,
-          version    : 'v18.0'
+          version    : 'v19.0' // Version 2026
         });
       };
     </script>
